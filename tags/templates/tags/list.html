@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Terms with Tags{% endblock %}
+
+{% block content %}
+<h1>Terms with Tags</h1>
+
+<p><a href="{% url 'tags:add' %}">New term</a></p>
+{% for tag in tags_list %}
+<p>{{ tag.term }}: {{ tag.tags }} <a href="{% url 'tags:update' tag.pk %}">(update tags)</a> <a href="{% url 'tags:delete' tag.pk %}">(delete)</a></p>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if tags_list.has_previous %}
+            <a href="{% url 'tags:root' %}">&laquo; first</a>
+            <a href="{% url 'tags:page' tags_list.previous_page_number %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ tags_list.number }} of {{ tags_list.paginator.num_pages }}.
+        </span>
+
+        {% if tags_list.has_next %}
+            <a href="{% url 'tags:page' tags_list.next_page_number %}">next</a>
+            <a href="{% url 'tags:page' tags_list.paginator.num_pages %}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
+
